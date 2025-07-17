@@ -17,17 +17,18 @@ def register(user: UserRegister):
         conn = get_pg_connection()
         cur = conn.cursor()
         # Check email already exist?
-        cur.execute("SELECT user_id FROM user WHERE email = %s", (user.email,))
+        cur.execute('SELECT user_id FROM users WHERE email = %s', (user.email,))
         if cur.fetchone():
             cur.close()
             conn.close()
             raise HTTPException(status_code=400, detail="Email already registered")
         # Hash password
         hashed_pw = hash_password(user.password)
+        
         # Insert new user (role=user)
         cur.execute(
             """
-            INSERT INTO user 
+            INSERT INTO users 
             (nama, email, password, alamat, no_hp, role)
             VALUES (%s, %s, %s, %s, %s, %s)
             RETURNING user_id
