@@ -2,7 +2,7 @@ from fastapi import APIRouter, HTTPException, status
 from pydantic import BaseModel, EmailStr, Field
 from app.helper.helper import get_pg_connection, hash_password
 
-router = APIRouter(prefix="/auth/user", tags=["Auth"])
+router = APIRouter(prefix="/auth/admin", tags=["Auth"])
 
 class UserRegister(BaseModel):
     nama: str = Field(..., example="Nama Lengkap")
@@ -12,7 +12,7 @@ class UserRegister(BaseModel):
     no_hp: str = Field(..., example="08123456789")
 
 @router.post("/register")
-def user_register(user: UserRegister):
+def admin_register(user: UserRegister):
     try: 
         conn = get_pg_connection()
         cur = conn.cursor()
@@ -25,7 +25,7 @@ def user_register(user: UserRegister):
         # Hash password
         hashed_pw = hash_password(user.password)
         
-        # Insert new user (role=user)
+        # Insert new user (role=admin)
         cur.execute(
             """
             INSERT INTO users 
@@ -33,7 +33,7 @@ def user_register(user: UserRegister):
             VALUES (%s, %s, %s, %s, %s, %s)
             RETURNING user_id
             """,
-            (user.nama, user.email, hashed_pw, user.alamat, user.no_hp, "user")
+            (user.nama, user.email, hashed_pw, user.alamat, user.no_hp, "admin")
         )
         user_id = cur.fetchone()["user_id"]
         conn.commit()

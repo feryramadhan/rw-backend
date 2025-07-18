@@ -1,5 +1,6 @@
 from fastapi import FastAPI
-from app.services.auth.user import user_register
+from app.services.auth.admin import admin_register, admin_login
+from app.services.auth.user import user_register, user_login
 
 app = FastAPI(
     title="Pembelian Barang",
@@ -14,3 +15,8 @@ async def health_check():
 
 # auth user
 app.include_router(user_register.router)
+app.include_router(user_login.router)
+
+# auth admin
+app.include_router(admin_register.router)
+app.include_router(admin_login.router)
