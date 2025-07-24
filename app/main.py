@@ -3,6 +3,7 @@ from app.services.auth.admin import admin_register, admin_login
 from app.services.auth.user import user_register, user_login
 from app.services.order.user import create_order, get_orders, update_order_status
 from app.services.order.admin import admin_get_orders, admin_delete_order
+from app.services.product import get_products, create_product, update_product, delete_product
 
 app = FastAPI(
     title="Pembelian Barang",
@@ -31,3 +32,9 @@ app.include_router(update_order_status.router)
 # order admin
 app.include_router(admin_get_orders.router)
 app.include_router(admin_delete_order.router)
+
+# barang
+app.include_router(get_products.router)
+app.include_router(create_product.router)
+app.include_router(update_product.router)
+app.include_router(delete_product.router)
