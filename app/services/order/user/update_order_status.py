@@ -27,10 +27,25 @@ def update_order_status(
             conn.close()
             raise HTTPException(status_code=404, detail="Order id not found")
 
+        status_lama = order["status_order"]
+
         # Update status
         cur.execute(
             'UPDATE "order" SET status_order = %s WHERE id_order = %s',
             (payload.status_order, id_order)
+        )
+
+        # Log
+        cur.execute(
+            '''
+            INSERT INTO log (user_id, aksi, deskripsi)
+            VALUES (%s, %s, %s)
+            ''',
+            (
+                current_user["user_id"],
+                "Update Status Order",
+                f"Order id={id_order}: update status dari '{status_lama}' menjadi '{payload.status_order}'"
+            )
         )
         conn.commit()
         cur.close()

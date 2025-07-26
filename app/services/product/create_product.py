@@ -32,7 +32,7 @@ def create_product(
         conn.close()
 
         return {
-            "message": "Successfully create product",
+            "message": "Produk berhasil dibuat!",
             "data": new_barang
         }
     except Exception as e:

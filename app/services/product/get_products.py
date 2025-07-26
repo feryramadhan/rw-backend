@@ -21,7 +21,7 @@ def get_all_products(current_user: dict = Depends(get_current_user)):
 
         return {
             "status": 200,
-            "message": "Successfully fetched all products",
+            "message": "Successfully get all products",
             "data": products
         }
 
