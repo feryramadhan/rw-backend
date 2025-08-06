@@ -11,7 +11,7 @@ class LogSchema(BaseModel):
     waktu: datetime
     deskripsi: str
 
-router = APIRouter(prefix="/log", tags=["Log"])
+router = APIRouter(prefix="/log", tags=["Log (Admin)"])
 
 @router.get("/", response_model=List[LogSchema])
 def get_logs(current_user: dict = Depends(only_admin)):
