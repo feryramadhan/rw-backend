@@ -16,3 +16,6 @@ def test_pg_connection():
 
 if __name__ == "__main__":
     test_pg_connection()
+
+# Run this command
+# python -m  app.db.test_connection
